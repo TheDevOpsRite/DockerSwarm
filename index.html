@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#07111f" />
+  <title>Night Shift Moto</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">+</span>
+        <div>
+          <p class="eyebrow">ARCADE RIDE / 01</p>
+          <h1>NIGHT SHIFT <span>MOTO</span></h1>
+        </div>
+      </div>
+      <div class="status-pill"><i></i> LIVE RUN</div>
+    </header>
+
+    <section class="game-layout">
+      <aside class="info-panel">
+        <div class="panel-kicker">MISSION</div>
+        <h2>Own the<br /><em>night lane.</em></h2>
+        <p class="lede">Thread through city traffic, hold your line, and stack distance before the clock catches you.</p>
+        <div class="rule"></div>
+        <div class="stat-line"><span>BEST DISTANCE</span><strong id="best-distance">0000 m</strong></div>
+        <div class="stat-line"><span>ROAD CONDITION</span><strong class="cyan">CLEAR</strong></div>
+        <div class="controls-copy">
+          <span class="keycap">←</span><span class="keycap">→</span>
+          <span>STEER</span>
+          <span class="keycap wide">SPACE</span><span>START / BRAKE</span>
+        </div>
+      </aside>
+
+      <div class="game-card">
+        <div class="canvas-wrap">
+          <canvas id="game" aria-label="Night Shift Moto game"></canvas>
+          <div class="hud hud-top">
+            <div><span>DISTANCE</span><strong id="distance">0000</strong><small>M</small></div>
+            <div class="hud-right"><span>SPEED</span><strong id="speed">000</strong><small>KM/H</small></div>
+          </div>
+          <div class="hud hud-bottom">
+            <div class="fuel-label"><span>FOCUS</span><div class="fuel-bar"><i id="focus-bar"></i></div></div>
+            <div class="score-label"><span>NEAR MISSES</span><strong id="near-misses">00</strong></div>
+          </div>
+          <div id="start-screen" class="overlay">
+            <div class="overlay-grid"></div>
+            <div class="overlay-content">
+              <p class="eyebrow">WELCOME TO THE AFTERHOURS</p>
+              <h2>Find your<br /><span>rhythm.</span></h2>
+              <p class="overlay-copy">Dodge traffic. Chase distance.<br />The city is yours for one more run.</p>
+              <button id="start-button" class="primary-button">START RIDE <b>→</b></button>
+              <p class="hint">ARROW KEYS / A D TO STEER · SPACE TO BRAKE</p>
+            </div>
+          </div>
+          <div id="game-over" class="overlay is-hidden">
+            <div class="overlay-grid"></div>
+            <div class="overlay-content">
+              <p class="eyebrow">RUN COMPLETE</p>
+              <h2>That was<br /><span>close.</span></h2>
+              <p class="result"><strong id="final-distance">0000</strong> METERS CLEARED</p>
+              <button id="restart-button" class="primary-button">RIDE AGAIN <b>↻</b></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="footer-note"><span>© 2026 NIGHT SHIFT</span><span>KEEP YOUR EYES UP</span><span>V. 0.1 MVP</span></footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
