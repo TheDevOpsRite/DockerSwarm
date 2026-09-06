@@ -50,7 +50,6 @@ jobs:
       - name: Configure SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
         run: |
@@ -58,13 +57,10 @@ jobs:
           test -n "$SSH_PRIVATE_KEY" || { echo "Missing SSH_PRIVATE_KEY secret"; exit 1; }
           test -n "$SERVER_HOST" || { echo "Missing SERVER_HOST secret"; exit 1; }
           test -n "$SERVER_USER" || { echo "Missing SERVER_USER secret"; exit 1; }
-          test -n "$SSH_KNOWN_HOSTS" || { echo "Missing SSH_KNOWN_HOSTS secret"; exit 1; }
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
-          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_ed25519
-          chmod 644 ~/.ssh/known_hosts
 
       - name: Copy image to Swarm manager
         env:
@@ -72,7 +68,7 @@ jobs:
           SERVER_USER: ${{ secrets.SERVER_USER }}
           SERVER_PORT: ${{ secrets.SERVER_PORT || '22' }}
           REMOTE_ARCHIVE: /tmp/night-shift-moto-${{ github.sha }}.tar.gz
-        run: scp -P "$SERVER_PORT" "$IMAGE_ARCHIVE" "$SERVER_USER@$SERVER_HOST:$REMOTE_ARCHIVE"
+        run: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P "$SERVER_PORT" "$IMAGE_ARCHIVE" "$SERVER_USER@$SERVER_HOST:$REMOTE_ARCHIVE"
 
       - name: Load image and update Swarm service
         env:
@@ -83,7 +79,7 @@ jobs:
           IMAGE: night-shift-moto:${{ github.sha }}
           SERVICE: ${{ env.SERVICE_NAME }}
         run: |
-          ssh -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" \
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" \
             "IMAGE='$IMAGE' SERVICE='$SERVICE' ARCHIVE='$REMOTE_ARCHIVE' bash -s" <<'REMOTE_SCRIPT'
           set -euo pipefail
 
