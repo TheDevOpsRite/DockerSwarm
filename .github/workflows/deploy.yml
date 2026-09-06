@@ -94,7 +94,7 @@ jobs:
           else
             docker service create \
               --name "$SERVICE" \
-              --publish published=80,target=80,protocol=tcp,mode=ingress 
+              --publish published=80,target=80,protocol=tcp,mode=ingress \
               "$IMAGE"
           fi
 
